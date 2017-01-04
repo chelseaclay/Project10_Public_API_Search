@@ -1,0 +1,25 @@
+@mixin text($family, $size, $color, $weight:null) {
+  font-family: $family;
+  font-size: $size;
+  color: $color;
+  font-weight: $weight;
+}
+  
+@mixin flexbox($display, $justify, $align:null, $wrap:null) {
+  display: $display;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+  
+@mixin tablet {
+  @media (min-width:738px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width:1024px) {
+    @content;
+  }
+}

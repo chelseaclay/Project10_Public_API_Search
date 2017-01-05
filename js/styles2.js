@@ -196,24 +196,12 @@ $("form").submit(function(evt){
         // SWIPE BASED NAVIGATION
         ////////////////////////////////////////////////////////////
 
-        $("window").on("swiperight", function(){
-          if($(".album-gallery:nth-child(1)").find("img").is("#active")) {
-            $("#overlay").remove();
-            $(".album-gallery:nth-child(8)").find("img").trigger("click");
-          } else {
-            $("#overlay").remove();
-            $("#active").parent(".album-gallery").prev().find("img").trigger("click");
-          }
+        $("#overlay").on("swiperight", function(){
+          $("#btnPrev").trigger("click");
         });
 
-        $("window").on("swipeleft", function(){
-          if($(".album-gallery:nth-child(8)").find("img").is("#active")) {
-            $("#overlay").remove();
-            $(".album-gallery:nth-child(1)").find("img").trigger("click");
-          } else {
-            $("#overlay").remove();
-            $("#active").parent(".album-gallery").next().find("img").trigger("click");
-          }
+        $("#overlay").on("swipeleft", function(){
+          $("#btnNext").trigger("click");
         }); // END SWIPE NAVIGATION
 
         } //END SECOND CALLBACK

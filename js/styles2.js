@@ -26,6 +26,8 @@ function enableSearch() {
 $("form").submit(function(evt){
   evt.preventDefault();
   disableSearch();
+  $("#sort").remove();
+  $("#content").remove();
   var contentDiv = '<div id="content"></div>';
   $("body").append(contentDiv);
   //Get Artist or Actor selection
@@ -37,6 +39,7 @@ $("form").submit(function(evt){
     if(selectOption() === 0) {
       albumArray = [];
       var spotifySort = '<div id="sort"><h2>Sort by</h2><button id="spotifyDateSort">Date</button><button id="spotifyNameSort">Name</button><button id="spotifyPopSort">Popularity</button><hr /></div>';
+      $(spotifySort).insertAfter("form");
 
   // the AJAX part
   var spotifyArtistAPI = "https://api.spotify.com/v1/search";
@@ -237,7 +240,7 @@ $("form").submit(function(evt){
       insertAlbum += '<p>Visit <a href="' + data.albums.items[0].artists[0].external_urls.spotify + '" target="_blank">Spotify</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
       insertAlbum += '</div>';
       //Put content on page
-      $('#content').html(spotifySort + insertAlbum);
+      $('#content').html(insertAlbum);
       //put back search bar
       enableSearch();
     } // END SPOTIFY ARTIST DOESN'T EXIST

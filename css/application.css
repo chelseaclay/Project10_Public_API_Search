@@ -5,7 +5,7 @@
 
 form {
   font-family: "Hind Guntur", sans-serif;
-  font-size: 1em;
+  font-size: 1.1em;
   color: black;
   font-weight: 400;
   display: flex;
@@ -20,22 +20,59 @@ form {
     text-align: center; }
   form #search {
     font-family: "Hind Guntur", sans-serif;
-    font-size: 0.75em;
+    font-size: 0.85em;
     color: black;
     font-weight: 400;
-    flex-basis: 50%;
-    padding: 0.5em 0.25em; }
+    flex-basis: 75%;
+    padding: 0.5em 0.25em;
+    border: 1px solid #c8cfd6;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px; }
+  form #submit {
+    font-family: "Hind Guntur", sans-serif;
+    font-size: 1.1em;
+    color: #3b444c;
+    font-weight: 500;
+    flex-basis: 100%;
+    margin: 1em auto;
+    padding: 0.25em 0 0.15em;
+    border: none;
+    outline: none;
+    border-radius: 0.6em;
+    background-color: rgba(189, 189, 189, 0.25);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px; }
 
 #sort {
-  font-family: "Hind Guntur", sans-serif;
-  font-size: 1em;
-  color: black;
-  font-weight: 400;
-  padding: 0 1em; }
+  padding: 0 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; }
   #sort h2,
   #sort button {
+    font-family: "Hind Guntur", sans-serif;
+    font-size: 0.85emm;
+    color: #3b444c;
+    font-weight: 400;
+    display: inline-block;
     font-weight: 400;
     font-size: 0.75em; }
+  #sort button {
+    margin-left: 0.75em;
+    padding: 0.25em 0.5em 0.15em;
+    border: none;
+    outline: none;
+    border-radius: 0.6em;
+    background-color: rgba(189, 189, 189, 0.25);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px; }
+  #sort hr {
+    flex-basis: 100%;
+    margin-top: 1em; }
 
 #gallery {
   margin: 0 auto;
@@ -44,7 +81,7 @@ form {
     display: block;
     margin: 0 auto; }
     #gallery .album-gallery img {
-      width: 80%;
+      width: 90%;
       display: block;
       margin: 1em auto;
       box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
@@ -69,6 +106,15 @@ form {
     #gallery p span {
       text-transform: capitalize; }
 
+.error-message {
+  font-family: "Hind Guntur", sans-serif;
+  font-size: 1em;
+  color: black;
+  font-weight: 300;
+  padding: 1em;
+  text-align: center;
+  line-height: 1.25em; }
+
 .noscroll {
   position: fixed;
   overflow: hidden; }
@@ -87,7 +133,7 @@ form {
   flex-wrap: nowrap; }
   #overlay button {
     font-family: "Hind Guntur", sans-serif;
-    font-size: 1em;
+    font-size: 1.1em;
     color: #778899;
     font-weight: 300;
     outline: none;
@@ -117,7 +163,7 @@ form {
   overflow-x: hidden;
   border-radius: 0.25em;
   font-family: "Hind Guntur", sans-serif;
-  font-size: 1em;
+  font-size: 1.15em;
   color: black;
   font-weight: 400;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
@@ -141,31 +187,31 @@ form {
   .album-info .album-artist {
     font-weight: 600; }
   .album-info .album-title {
-    font-size: 0.85em;
+    font-size: 1em;
     line-height: 1.25em;
     padding-bottom: 0.25em; }
   .album-info .album-year {
-    font-size: 0.7em;
+    font-size: 0.85em;
     line-height: 1em; }
 
 .album-tracks,
 .movie-info {
   padding-left: 1.2em;
-  font-size: 0.85em; }
+  font-size: 0.95em; }
 
 .album-tracks li {
   font-family: "Hind Guntur", sans-serif;
-  font-size: 0.9em;
+  font-size: 1em;
   color: black;
   font-weight: 400;
   line-height: 1.25em;
-  padding-bottom: 0.25em; }
+  padding-bottom: 0.35em; }
 
 .movie-info {
   line-height: 1.25em; }
   .movie-info .movie-year {
-    font-size: 0.7em; }
+    font-size: 0.8em; }
   .movie-info .movie-plot {
-    font-size: 0.85em; }
+    font-size: 0.95em; }
 
 /*# sourceMappingURL=application.css.map */

@@ -26,6 +26,8 @@ function enableSearch() {
 $("form").submit(function(evt){
   evt.preventDefault();
   disableSearch();
+  var contentDiv = '<div id="content"></div>';
+  $("body").append(contentDiv);
   //Get Artist or Actor selection
   function selectOption() {
       var obj = document.getElementById("selectType");
@@ -34,8 +36,7 @@ $("form").submit(function(evt){
     // IF ARTIST IS SELECTED
     if(selectOption() === 0) {
       albumArray = [];
-      var spotifySort = '<div id="sort"><h2>Sort by</h2><button id="spotifyDateSort">Date</button><button id="spotifyNameSort">Name</button><button id="spotifyPopSort">Popularity</button><hr /></div><div id="content"></div>';
-      $("body").append(spotifySort);
+      var spotifySort = '<div id="sort"><h2>Sort by</h2><button id="spotifyDateSort">Date</button><button id="spotifyNameSort">Name</button><button id="spotifyPopSort">Popularity</button><hr /></div>';
 
   // the AJAX part
   var spotifyArtistAPI = "https://api.spotify.com/v1/search";
@@ -221,13 +222,25 @@ $("form").submit(function(evt){
       $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
     }); //END EACH LOOP TO BUILD GALLERY AND ARRAY
     
-    //Link back to Spotify under gallery
-    insertAlbum += '<p>Visit <a href="' + data.albums.items[0].artists[0].external_urls.spotify + '" target="_blank">Spotify</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
-    insertAlbum += '</div>';
-    //Put content on page
-    $('#content').html(insertAlbum);
-    //put back search bar
-    enableSearch();
+    
+    ////////////////////////////////////////////////////////////
+    //IF SPOTIFY ARTIST DOESN'T EXIST
+    ////////////////////////////////////////////////////////////
+    if ( typeof data.albums.items[0] === "undefined" ) {
+      enableSearch();
+      var errorMessage = "<p class='error-message'>Sorry, " + userSearch.val() + " is not part of our library. Please make sure you have the correct spelling and try again.</p>";
+      $('#content').html(errorMessage);
+//      return;
+    } else {
+      $('#sort').show();
+      //Link back to Spotify under gallery
+      insertAlbum += '<p>Visit <a href="' + data.albums.items[0].artists[0].external_urls.spotify + '" target="_blank">Spotify</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
+      insertAlbum += '</div>';
+      //Put content on page
+      $('#content').html(spotifySort + insertAlbum);
+      //put back search bar
+      enableSearch();
+    } // END SPOTIFY ARTIST DOESN'T EXIST
     
     ////////////////////////////////////////////////////////////
     //DISPLAY LIGHTBOX ON CLICK
@@ -282,14 +295,8 @@ $("form").submit(function(evt){
   } //END ORIGINAL CALLBACK
   
   //ORIGINAL AJAX CALL
-  $.getJSON(spotifyArtistAPI, spotifyArtistOptions)
-    .done(function(response) {
-      spotifyArtistCallback(response);
-    })
-    .fail(function() {
-      console.log("error");
-      enableSearch();
-    });
+  $.getJSON(spotifyArtistAPI, spotifyArtistOptions, spotifyArtistCallback);
+      
   } else if(selectOption() === 1) {
     console.log(selectOption());
     enableSearch();

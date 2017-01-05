@@ -5,7 +5,7 @@
 }
 
 form {
-  @include text($allFont, 1em, black, $regFont);
+  @include text($allFont, 1.1em, black, $regFont);
   @include flexbox(flex, space-between, center, wrap);
   padding: 1em;
   
@@ -17,20 +17,57 @@ form {
   }
   
   #search {
-    @include text($allFont, 0.75em, black, $regFont);
-    flex-basis: 50%;
+    @include text($allFont, 0.85em, black, $regFont);
+    flex-basis: 75%;
     padding: 0.5em 0.25em;
+    border: 1px solid $lighter;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  }
+  
+  #submit {
+    @include text($allFont, 1.1em, $darker, $medFont);
+    flex-basis: 100%;
+    margin: 1em auto;
+    padding: 0.25em 0 0.15em;
+    border: none;
+    outline: none;
+    border-radius: 0.6em;
+    background-color: rgba(189, 189, 189, 0.25);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
   }
 }
 
 #sort {
-  @include text($allFont, 1em, black, $regFont);
   padding: 0 1em;
+  @include flexbox(flex, center, center, wrap);
   
   h2,
   button {
+    @include text($allFont, 0.85emm, $darker, $regFont);
+    display: inline-block;
     font-weight: $regFont;
     font-size: 0.75em;
+  }
+  
+  button {
+    margin-left: 0.75em;
+    padding: 0.25em 0.5em 0.15em;
+    border: none;
+    outline: none;
+    border-radius: 0.6em;
+    background-color: rgba(189, 189, 189, 0.25);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  }
+  
+  hr {
+    flex-basis: 100%;
+    margin-top: 1em;
   }
 }
 
@@ -43,7 +80,7 @@ form {
     margin: 0 auto;
     
     img {
-      width: 80%;
+      width: 90%;
       display: block;
       margin: 1em auto;
       box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
@@ -72,3 +109,10 @@ form {
     }
   }
 }
+
+.error-message {
+  @include text($allFont, 1em, black, $lightFont);
+  padding: 1em;
+  text-align: center;
+  line-height: 1.25em;
+ }

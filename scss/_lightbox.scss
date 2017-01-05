@@ -14,7 +14,7 @@
   @include flexbox(flex, space-around, center, nowrap);
   
   button {
-    @include text($allFont, 1em, $slate, $lightFont);
+    @include text($allFont, 1.1em, $slate, $lightFont);
     outline: none;
     border: none;
     padding: 1.5em 0.25em;
@@ -45,7 +45,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   border-radius: 0.25em;
-  @include text($allFont, 1em, black, $regFont);
+  @include text($allFont, 1.15em, black, $regFont);
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
@@ -80,13 +80,13 @@
   }
   
   .album-title {
-    font-size: 0.85em;
+    font-size: 1em;
     line-height: 1.25em;
     padding-bottom: 0.25em;
   }
   
   .album-year {
-    font-size: 0.7em;
+    font-size: 0.85em;
     line-height: 1em;
   }
 } //end album info
@@ -94,13 +94,13 @@
 .album-tracks,
 .movie-info {
   padding-left: 1.2em;
-  font-size: 0.85em;
+  font-size: 0.95em;
 }
 
 .album-tracks li {
-  @include text($allFont, 0.9em, black, $regFont);
+  @include text($allFont, 1em, black, $regFont);
   line-height: 1.25em;
-  padding-bottom: 0.25em;
+  padding-bottom: 0.35em;
 }
 
 .movie-info {
@@ -111,10 +111,10 @@
   }
   
   .movie-year {
-    font-size: 0.7em;
+    font-size: 0.8em;
   }
   
   .movie-plot {
-    font-size: 0.85em;
+    font-size: 0.95em;
   }
 } //end movie info

@@ -192,6 +192,30 @@ $("form").submit(function(evt){
             }
           }; // END KEYBOARD NAVIGATION
 
+        ////////////////////////////////////////////////////////////
+        // SWIPE BASED NAVIGATION
+        ////////////////////////////////////////////////////////////
+
+        $("window").on("swiperight", function(){
+          if($(".album-gallery:nth-child(1)").find("img").is("#active")) {
+            $("#overlay").remove();
+            $(".album-gallery:nth-child(8)").find("img").trigger("click");
+          } else {
+            $("#overlay").remove();
+            $("#active").parent(".album-gallery").prev().find("img").trigger("click");
+          }
+        });
+
+        $("window").on("swipeleft", function(){
+          if($(".album-gallery:nth-child(8)").find("img").is("#active")) {
+            $("#overlay").remove();
+            $(".album-gallery:nth-child(1)").find("img").trigger("click");
+          } else {
+            $("#overlay").remove();
+            $("#active").parent(".album-gallery").next().find("img").trigger("click");
+          }
+        }); // END SWIPE NAVIGATION
+
         } //END SECOND CALLBACK
 
       //append overlay to page
@@ -231,7 +255,7 @@ $("form").submit(function(evt){
     ////////////////////////////////////////////////////////////
     if ( typeof data.albums.items[0] === "undefined" ) {
       enableSearch();
-      var errorMessage = "<p class='error-message'>Sorry, " + userSearch.val() + " is not part of our library. Please make sure you have the correct spelling and try again.</p>";
+      var errorMessage = "<p class='error-message'>Sorry, <span>" + userSearch.val() + "</span> is not part of our library. Please make sure you have the correct spelling and try again.</p>";
       $('#content').html(errorMessage);
 //      return;
     } else {

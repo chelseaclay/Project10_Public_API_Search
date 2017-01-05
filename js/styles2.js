@@ -52,29 +52,29 @@ $("form").submit(function(evt){
     var insertAlbum = '<div id="gallery">';
     //Create Overlay and buttons
     var overlayLightbox = '<div id="overlay"><button id="btnPrev" type="button"> < </button><div class="album"></div><button id="btnNext" type="button"> > </button></div>';
-    
-    //////////////////////////////////////////////////////////// 
+
+    ////////////////////////////////////////////////////////////
     //FUNCTIONS
     ////////////////////////////////////////////////////////////
-    
+
     function SortByDate(a, b){
       var aDate = a.release_date;
-      var bDate = b.release_date; 
+      var bDate = b.release_date;
       return ((aDate < bDate) ? -1 : ((aDate > bDate) ? 1 : 0));
     }
-    
+
     function SortByName(a, b){
       var aName = a.name;
-      var bName = b.name; 
+      var bName = b.name;
       return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
     }
-    
+
     function SortByPopularity(a, b){
       var aPop = a.popularity;
-      var bPop = b.popularity; 
+      var bPop = b.popularity;
       return ((aPop < bPop) ? -1 : ((aPop > bPop) ? 1 : 0));
     }
-    
+
     function updateGallery() {
       var insertAlbumRebuild = '<div id="gallery">';
       $.each(albumArray, function(i, album) {
@@ -85,20 +85,20 @@ $("form").submit(function(evt){
       });
       $('#content').html(insertAlbumRebuild);
     } //END GALLERY UPDATE
-    
+
     function lightboxContent() {
       var albumID = $("#active").attr("spotify-id");
-      
+
       //Prevent the Body from scrolling
       $('body').attr("class", "noscroll");
-    
+
       // SECOND AJAX Call
       var spotifyAlbumAPI = "https://api.spotify.com/v1/albums/" + albumID;
       var spotifyAlbumOptions = {
         type : 'album',
         limit : 50
       };
-  
+
       function spotifyAlbumCallback(albumData) {
         //Create lightbox album content
         var lightboxAlbum = '<div class="btnWrapper"><button id="btnExit" type="button"> X </button></div><div class="album-info">';
@@ -108,17 +108,17 @@ $("form").submit(function(evt){
         lightboxAlbum += '<p class="album-year" maxlength="4">' + albumData.release_date + '</p>';
         lightboxAlbum += '</div></div>';
         lightboxAlbum += '<ol class="album-tracks">';
-        
+
         $.each(albumData.tracks.items, function(i, track) {
           lightboxAlbum += '<li>' + track.name + '</li>';
         });
-        
+
         lightboxAlbum += '</ol>';
-        
+
         //append lightbox to album div in overlay
         $(".album").html(lightboxAlbum);
-        
-        
+
+
         ////////////////////////////////////////////////////////////
         //CLICK BASED NAVIGATION
         ////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ $("form").submit(function(evt){
             $("#active").parent(".album-gallery").prev().find("img").trigger("click");
           }
         });
-        
+
         $("#btnNext").click(function(){
           if($(".album-gallery:nth-child(8)").find("img").is("#active")) {
             $("#overlay").remove();
@@ -141,20 +141,20 @@ $("form").submit(function(evt){
             $("#active").parent(".album-gallery").next().find("img").trigger("click");
           }
         });
-        
+
         $("#btnExit").click(function(){
           $("#overlay").remove();
           $("#active").removeAttr("id");
           $("body").removeClass("noscroll");
         });
-        
+
         $("#overlay").click(function(){
           $("#overlay").remove();
           $("#active").removeAttr("id");
           $("body").removeClass("noscroll");
         }); // END CLICK NAVIGATION
-        
-        
+
+
         ////////////////////////////////////////////////////////////
         //KEYBOARD BASED NAVIGATION
         ////////////////////////////////////////////////////////////
@@ -188,16 +188,16 @@ $("form").submit(function(evt){
               break;
             }
           }; // END KEYBOARD NAVIGATION
-        
+
         } //END SECOND CALLBACK
-      
+
       //append overlay to page
       $('#content').append(overlayLightbox);
-      
+
       //SECOND AJAX call
       $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
     } //END LIGHTBOX CONTENT CLICK
-    
+
     //LOOP TO BUILD GALLERY AND ARRAY
     $.each(data.albums.items, function(i, album) {
       //gallery content
@@ -205,7 +205,7 @@ $("form").submit(function(evt){
       insertAlbum += '<img src="' + album.images[1].url + '" alt="' + album.name + '" spotify-id="' + album.id + '" />';
       insertAlbum += '</a>';
 
-      //////////////////////////////////////////////////////////// 
+      ////////////////////////////////////////////////////////////
       //SECOND AJAX CALL FOR ARRAY
       ////////////////////////////////////////////////////////////
       var spotifyAlbumAPI = "https://api.spotify.com/v1/albums/" + album.id;
@@ -213,16 +213,16 @@ $("form").submit(function(evt){
         type : 'album',
         limit : 50
       };
-  
+
       function spotifyAlbumCallback(albumData) {
         albumArray.push(albumData);
       } //END ARRAY CALLBACK
-    
+
       //ARRAY AJAX call
       $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
     }); //END EACH LOOP TO BUILD GALLERY AND ARRAY
-    
-    
+
+
     ////////////////////////////////////////////////////////////
     //IF SPOTIFY ARTIST DOESN'T EXIST
     ////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ $("form").submit(function(evt){
       //put back search bar
       enableSearch();
     } // END SPOTIFY ARTIST DOESN'T EXIST
-    
+
     ////////////////////////////////////////////////////////////
     //DISPLAY LIGHTBOX ON CLICK
     ////////////////////////////////////////////////////////////
@@ -252,7 +252,7 @@ $("form").submit(function(evt){
       $(this).attr("id", "active");
       lightboxContent();
     }); //END LIGHTBOX CLICK
-    
+
     ////////////////////////////////////////////////////////////
     //SORT THE GALLERY by the ARRAY
     ////////////////////////////////////////////////////////////
@@ -267,7 +267,7 @@ $("form").submit(function(evt){
         lightboxContent();
       }); //END LIGHTBOX CLICK
     }); //End sort by date
-    
+
     $("#spotifyNameSort").click(function() {
       albumArray.sort(SortByName);
       updateGallery();
@@ -279,7 +279,7 @@ $("form").submit(function(evt){
         lightboxContent();
       }); //END LIGHTBOX CLICK
     }); //End sort by name
-    
+
     $("#spotifyPopSort").click(function() {
       albumArray.sort(SortByPopularity);
       updateGallery();
@@ -291,12 +291,12 @@ $("form").submit(function(evt){
         lightboxContent();
       }); //END LIGHTBOX CLICK
     }); //End sort by popularity
-    
+
   } //END ORIGINAL CALLBACK
-  
+
   //ORIGINAL AJAX CALL
   $.getJSON(spotifyArtistAPI, spotifyArtistOptions, spotifyArtistCallback);
-      
+
   } else if(selectOption() === 1) {
     console.log(selectOption());
     enableSearch();

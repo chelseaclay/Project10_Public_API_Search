@@ -1,0 +1,100 @@
+.movie {
+  background-color: rgba(255, 255, 255, 0.94);
+  padding: 1em;
+  width: 83%;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 0.25em;
+  @include text($allFont, 1.15em, black, $regFont);
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  
+  @include flexbox(flex, space-between, flex-start, wrap);
+  
+  @include tablet {
+    display: inline-block;
+    float: left;
+    vertical-align: top;
+  }
+} //end .movie
+
+
+.movie-poster {
+  width: 40%;
+  margin-bottom: 1em;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  
+  @include tablet {
+    display: inline-block;
+    vertical-align:top;
+    float: left;
+    width: 38%;
+  }
+} //end .movie-poster
+
+.movie-info {
+  padding-left: 1.2em;
+  font-size: 0.95em;
+  line-height: 1.25em;
+  margin-bottom: 1em;
+  width: 60%;
+  
+  @include tablet {
+    float: left;
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+   .movie-title {
+    font-size: 1.15em;
+    font-weight: $semibFont;
+    width: 100%;
+    
+    @include tablet {
+      font-size: 1.5em;
+      line-height: 1.05em;
+    }
+  } //end .movie-title
+  
+  .movie-year {
+    font-size: 0.8em;
+    display: inline-block;
+    
+    @include tablet {
+      line-height: 0.2em;
+    }
+  } //end .movie-year
+  
+  .movie-genre {
+    font-size: 1em;
+    font-weight: $regFont;
+    width: 100%;
+    
+    @include tablet {
+      padding-top: 0.25em;
+    }
+  } // end.movie-genre
+  
+  .movie-rating {
+    font-size: 0.8em;
+    display: inline-block;
+  }// end .movie-rating
+} //end .movie-info
+
+.movie-plot {
+  font-size: 0.95em;
+  flex-basis: 100%;
+  line-height: 1.25em;
+  
+  @include tablet {
+    width: 60%;
+    float: left;
+    padding-left: 1.2em;
+    display: inline-block;
+    vertical-align: top;
+  }
+} //end .movie-plot

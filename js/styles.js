@@ -208,6 +208,7 @@ $("form").submit(function(evt){
               }
             }; // END KEYBOARD NAVIGATION
 
+
           } //END SECOND CALLBACK
 
         //append overlay to page
@@ -376,9 +377,6 @@ $("form").submit(function(evt){
             insertMovieRebuild += '</a>';
           });
 
-          insertMovieRebuild += '<p>Visit <a href="https://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/advancedSearch?media= movie#powerSearch&restrict=false&submit=…" target="_blank">iTunes</a> for more films featuring <span>' + userSearch.val() + '</span>.</p>';
-          insertAlbum += '</div>';
-
           $('#content').html(insertMovieRebuild);
         } //END GALLERY UPDATE
 
@@ -477,7 +475,6 @@ $("form").submit(function(evt){
               }
             }; // END KEYBOARD NAVIGATION
 
-
         } //END lightboxContent
 
 
@@ -499,8 +496,6 @@ $("form").submit(function(evt){
             insertMovie += '<img src="' + largeMoviePoster + '" alt="' + movie.trackName + '" />';
             insertMovie += '</a>';
           });
-
-          insertMovie += '<p>Visit <a href="https://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/advancedSearch?media= movie#powerSearch&restrict=false&submit=…" target="_blank">iTunes</a> for more films featuring <span>' + userSearch.val() + '</span>.</p>';
 
           //insert gallery into Content div
           $("#content").html(insertMovie);

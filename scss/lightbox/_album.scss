@@ -1,0 +1,112 @@
+.album {
+  background-color: rgba(255, 255, 255, 0.94);
+  padding: 1em;
+  width: 83%;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 0.25em;
+  @include text($allFont, 1.15em, black, $regFont);
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  
+  @include tablet {
+    @include flexbox(flex, space-between, flex-start, nowrap);
+  }
+} //end .album
+
+
+.album-info {
+  line-height: 1.25em;
+  margin-bottom: 1em;
+  width: 100%;
+  @include flexbox(flex, space-between, flex-start, wrap);
+  
+  @include tablet {
+      width: 48%;
+    }
+  
+  .album-art {
+    width: 48%;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+    
+    @include tablet {
+      width: 100%;
+    }
+  }
+} //end .album-info
+  
+div {
+  width: 48%;
+  
+  @include tablet {
+    width: 100%;
+    
+  }
+} // end div
+  
+.album-artist {
+  width: 100%;
+  font-weight: $semibFont;
+  
+  @include tablet {
+    padding-top: 1em;
+  }
+  
+  @include desktop {
+    font-size: 1.5em;
+  }
+}
+
+.album-title {
+  width: 100%;
+  font-size: 1em;
+  line-height: 1.25em;
+  padding-bottom: 0.25em;
+  
+  @include tablet {
+    font-size: 1.5em;
+    font-weight: $lightFont;
+  }
+  
+  @include desktop {
+    font-size: 1.75em;
+  }
+}
+
+.album-year {
+  width: 100%;
+  font-size: 0.85em;
+  line-height: 1em;
+  
+  @include tablet {
+    line-height: 0.2em;
+  }
+  
+  @include desktop {
+    line-height: 0;
+    font-size: 1em;
+  }
+}
+
+.album-tracks {
+  padding-left: 1.2em;
+  font-size: 0.95em;
+  
+  @include tablet {
+      width: 48%;
+    }
+  
+  @include desktop {
+    font-size: 1.15em;
+  }
+}
+
+.album-tracks li {
+  @include text($allFont, 1em, black, $regFont);
+  line-height: 1.25em;
+  padding-bottom: 0.35em;
+}

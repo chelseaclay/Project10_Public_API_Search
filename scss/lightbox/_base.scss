@@ -1,0 +1,98 @@
+.noscroll{
+  position:fixed;
+  overflow:hidden;
+}
+
+#content {
+  width: 100%;
+  
+  @include desktop {
+    max-width: 80%;
+    margin: 2em auto 0;
+  }
+}
+
+#sort {
+  padding: 0 1em;
+  width: 100%;
+  @include flexbox(flex, center, center, wrap);
+  
+  @include desktop {
+    max-width: 80%;
+    margin: 2em auto 0;
+  }
+  
+  h2,
+  button {
+    @include text($allFont, 0.8em, $darker, $regFont);
+    display: inline-block;
+    font-weight: $regFont;
+    
+    @include tablet {
+      font-size: 1em;
+    }
+  }
+  
+  button {
+    margin-left: 1em;
+    padding: 0.35em 0.6em 0.25em;
+    border: none;
+    outline: none;
+    border-radius: 0.6em;
+    background-color: rgba(189, 189, 189, 0.25);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  }
+  
+  hr {
+    flex-basis: 100%;
+    margin-top: 1em;
+  }
+} //end #sort
+
+#overlay {
+  background-color: rgba(189, 189, 189, 0.65);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  @include flexbox(flex, space-around, center, nowrap);
+  
+  button {
+    @include text($allFont, 1.1em, $slate, $lightFont);
+    outline: none;
+    border: none;
+    padding: 1.5em 0.5em;
+    background-color: white;
+    text-align: center;
+    border-radius: 0.25em;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+      -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+  }
+} //end #overlay
+
+.btnWrapper {
+  position: fixed;
+  
+  #btnExit{
+    position: fixed;
+    top: auto;
+    right: 5%;
+    font-size: 0.9em;
+    padding: 0.2em 0.4em 0;
+    border-radius: 50%;
+    transform: translateY(-2em);
+    
+    @include tablet {
+      right: 7%;
+    }
+    
+    @include desktop {
+      right: 7.5%;
+    }
+  } //end #btnExit
+} //end #btnWrapper

@@ -208,7 +208,6 @@ $("form").submit(function(evt){
               }
             }; // END KEYBOARD NAVIGATION
 
-
           } //END SECOND CALLBACK
 
         //append overlay to page
@@ -474,6 +473,7 @@ $("form").submit(function(evt){
                 break;
               }
             }; // END KEYBOARD NAVIGATION
+
 
         } //END lightboxContent
 

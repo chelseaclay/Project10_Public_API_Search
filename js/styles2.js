@@ -54,7 +54,7 @@ $("form").submit(function(evt){
         albumArray = [];
         var spotifySort = '<div id="sort"><h2>Sort by</h2><button id="spotifyDateSort">Date</button><button id="spotifyNameSort">Name</button><button id="spotifyPopSort">Popularity</button><hr /></div>';
         $(spotifySort).insertAfter("form");
-  
+
     // the AJAX part
     var spotifyArtistAPI = "https://api.spotify.com/v1/search";
     var spotifyArtistSearch = userSearch.val();
@@ -63,35 +63,35 @@ $("form").submit(function(evt){
       type : 'album',
       limit : 8
     };
-  
+
     function spotifyArtistCallback(data) {
       //Build gallery content
       var insertAlbum = '<div id="gallery">';
       //Create Overlay and buttons
       var overlayLightbox = '<div id="overlay"><button id="btnPrev" type="button"> < </button><div class="album"></div><button id="btnNext" type="button"> > </button></div>';
-      
-      //////////////////////////////////////////////////////////// 
+
+      ////////////////////////////////////////////////////////////
       //FUNCTIONS
       ////////////////////////////////////////////////////////////
-      
+
       function SortByDate(a, b){
         var aDate = a.release_date;
-        var bDate = b.release_date; 
+        var bDate = b.release_date;
         return ((aDate < bDate) ? -1 : ((aDate > bDate) ? 1 : 0));
       }
-      
+
       function SortByName(a, b){
         var aName = a.name;
-        var bName = b.name; 
+        var bName = b.name;
         return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
       }
-      
+
       function SortByPopularity(a, b){
         var aPop = a.popularity;
-        var bPop = b.popularity; 
+        var bPop = b.popularity;
         return ((aPop < bPop) ? -1 : ((aPop > bPop) ? 1 : 0));
       }
-      
+
       function updateGallery() {
         var insertAlbumRebuild = '<div id="gallery">';
         $.each(albumArray, function(i, album) {
@@ -103,20 +103,20 @@ $("form").submit(function(evt){
         insertAlbumRebuild += '<p>Visit <a href="' + data.albums.items[0].artists[0].external_urls.spotify + '" target="_blank">Spotify</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
         $('#content').html(insertAlbumRebuild);
       } //END GALLERY UPDATE
-      
+
       function lightboxContent() {
         var albumID = $("#active").attr("spotify-id");
-        
+
         //Prevent the Body from scrolling
         $('body').attr("class", "noscroll");
-      
+
         // SECOND AJAX Call
         var spotifyAlbumAPI = "https://api.spotify.com/v1/albums/" + albumID;
         var spotifyAlbumOptions = {
           type : 'album',
           limit : 50
         };
-    
+
         function spotifyAlbumCallback(albumData) {
           //Create lightbox album content
           var albumRelease = albumData.release_date;
@@ -127,17 +127,17 @@ $("form").submit(function(evt){
           lightboxAlbum += '<p class="album-year">' + albumRelease.substring(0, 4) + '</p>';
           lightboxAlbum += '</div></div>';
           lightboxAlbum += '<ol class="album-tracks">';
-          
+
           $.each(albumData.tracks.items, function(i, track) {
             lightboxAlbum += '<li>' + track.name + '</li>';
           });
-          
+
           lightboxAlbum += '</ol>';
-          
+
           //append lightbox to album div in overlay
           $(".album").html(lightboxAlbum);
-          
-          
+
+
           ////////////////////////////////////////////////////////////
           //CLICK BASED NAVIGATION
           ////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ $("form").submit(function(evt){
               $("#active").parent(".album-gallery").prev().find("img").trigger("click");
             }
           });
-          
+
           $("#btnNext").click(function(){
             if($(".album-gallery:nth-child(8)").find("img").is("#active")) {
               $("#overlay").remove();
@@ -160,20 +160,20 @@ $("form").submit(function(evt){
               $("#active").parent(".album-gallery").next().find("img").trigger("click");
             }
           });
-          
+
           $("#btnExit").click(function(){
             $("#overlay").remove();
             $("#active").removeAttr("id");
             $("body").removeClass("noscroll");
           });
-          
+
           $("#overlay").click(function(){
             $("#overlay").remove();
             $("#active").removeAttr("id");
             $("body").removeClass("noscroll");
           }); // END CLICK NAVIGATION
-          
-          
+
+
           ////////////////////////////////////////////////////////////
           //KEYBOARD BASED NAVIGATION
           ////////////////////////////////////////////////////////////
@@ -207,36 +207,36 @@ $("form").submit(function(evt){
                 break;
               }
             }; // END KEYBOARD NAVIGATION
-          
+
           ////////////////////////////////////////////////////////////
           // SWIPE BASED NAVIGATION
           ////////////////////////////////////////////////////////////
-          
+
           $("#overlay").on("swiperight", function(){
             $("#btnPrev").trigger("click");
           });
-          
+
           $("#overlay").on("swipeleft", function(){
             $("#btnNext").trigger("click");
           }); // END SWIPE NAVIGATION
-          
+
           } //END SECOND CALLBACK
-        
+
         //append overlay to page
         $('#content').append(overlayLightbox);
-        
+
         //SECOND AJAX call
         $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
       } //END LIGHTBOX CONTENT CLICK
-      
+
       //LOOP TO BUILD GALLERY AND ARRAY
       $.each(data.albums.items, function(i, album) {
         //gallery content
         insertAlbum += '<a href="#lightboxAlbum" class="album-gallery">';
         insertAlbum += '<img src="' + album.images[1].url + '" alt="' + album.name + '" spotify-id="' + album.id + '" />';
         insertAlbum += '</a>';
-  
-        //////////////////////////////////////////////////////////// 
+
+        ////////////////////////////////////////////////////////////
         //SECOND AJAX CALL FOR ARRAY
         ////////////////////////////////////////////////////////////
         var spotifyAlbumAPI = "https://api.spotify.com/v1/albums/" + album.id;
@@ -244,16 +244,16 @@ $("form").submit(function(evt){
           type : 'album',
           limit : 50
         };
-    
+
         function spotifyAlbumCallback(albumData) {
           albumArray.push(albumData);
         } //END ARRAY CALLBACK
-      
+
         //ARRAY AJAX call
         $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
       }); //END EACH LOOP TO BUILD GALLERY AND ARRAY
-      
-      
+
+
       ////////////////////////////////////////////////////////////
       //IF SPOTIFY ARTIST DOESN'T EXIST
       ////////////////////////////////////////////////////////////
@@ -272,7 +272,7 @@ $("form").submit(function(evt){
         //put back search bar
         enableSearch();
       } // END SPOTIFY ARTIST DOESN'T EXIST
-      
+
       ////////////////////////////////////////////////////////////
       //DISPLAY LIGHTBOX ON CLICK
       ////////////////////////////////////////////////////////////
@@ -283,7 +283,7 @@ $("form").submit(function(evt){
         $(this).attr("id", "active");
         lightboxContent();
       }); //END LIGHTBOX CLICK
-      
+
       ////////////////////////////////////////////////////////////
       //SORT THE GALLERY by the ARRAY
       ////////////////////////////////////////////////////////////
@@ -298,7 +298,7 @@ $("form").submit(function(evt){
           lightboxContent();
         }); //END LIGHTBOX CLICK
       }); //End sort by date
-      
+
       $("#spotifyNameSort").click(function() {
         albumArray.sort(SortByName);
         updateGallery();
@@ -310,7 +310,7 @@ $("form").submit(function(evt){
           lightboxContent();
         }); //END LIGHTBOX CLICK
       }); //End sort by name
-      
+
       $("#spotifyPopSort").click(function() {
         albumArray.sort(SortByPopularity);
         updateGallery();
@@ -322,60 +322,60 @@ $("form").submit(function(evt){
           lightboxContent();
         }); //END LIGHTBOX CLICK
       }); //End sort by popularity
-      
+
     } //END ORIGINAL CALLBACK
-    
+
     //ORIGINAL AJAX CALL
     $.getJSON(spotifyArtistAPI, spotifyArtistOptions, spotifyArtistCallback);
-        
-    
-        
+
+
+
     ////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////    
+    ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     //MOVIE API
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////
-        
+
     } else if(apiSwitch() === "Actor") {
       enableSearch();
       var iTunesSort = '<div id="sort"><h2>Sort by</h2><button id="iTunesDateSort">Date</button><button id="iTunesNameSort">Name</button><hr /></div>';
         $(iTunesSort).insertAfter("form");
-      
-      
+
+
       //Other API goes here
       var iTunesAPI = "https://itunes.apple.com/search?";
       var iTunesOptions = {
         term: userSearch.val(),
         limit : 8
       };
-      
+
       function iTunesCallback(data) {
         movieArray = [];
         movieArray.push(data);
-        
+
         //Build gallery
         var insertMovie = '<div id="gallery">';
         //Create Overlay and buttons
         var overlayLightbox = '<div id="overlay"><button id="btnPrev" type="button"> < </button><div class="movie"></div><button id="btnNext" type="button"> > </button></div>';
-        
+
         ////////////////////////////////////////////////////////////
         //FUNCTIONS
         ////////////////////////////////////////////////////////////
-        
+
         function SortByDate(a, b){
           var aDate = a.releaseDate;
-          var bDate = b.releaseDate; 
+          var bDate = b.releaseDate;
           return ((aDate < bDate) ? -1 : ((aDate > bDate) ? 1 : 0));
         }
-        
+
         function SortByName(a, b){
           var aName = a.trackName;
-          var bName = b.trackName; 
+          var bName = b.trackName;
           return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
         }
-        
+
         function updateGallery() {
           var insertMovieRebuild = '<div id="gallery">';
           //gallery content
@@ -387,14 +387,14 @@ $("form").submit(function(evt){
             insertMovieRebuild += '<img src="' + largeMoviePoster + '" alt="' + movie.trackName + '" />';
             insertMovieRebuild += '</a>';
           });
-          
+
           $('#content').html(insertMovieRebuild);
         } //END GALLERY UPDATE
-        
+
         function lightboxContent(i) {
           //Prevent the Body from scrolling
           $('body').attr("class", "noscroll");
-          
+
           //Create lightbox content
           var moviePoster = movieArray[0].results[i].artworkUrl100;
           var largeMoviePoster = moviePoster.replace("100x100", "600x600");
@@ -408,14 +408,14 @@ $("form").submit(function(evt){
             lightboxMovie += '<p class="movie-rating">' + movieArray[0].results[i].contentAdvisoryRating + '</p>';
           lightboxMovie += '</div>'; //end movie-info div
           lightboxMovie += '<p class="movie-plot">' + movieArray[0].results[i].longDescription + '</p>';
-          
+
           //append overlay to page
           $('#content').append(overlayLightbox);
-          
+
           //append lightbox to movie div in overlay
           $(".movie").append(lightboxMovie);
-          
-          
+
+
           ////////////////////////////////////////////////////////////
           //CLICK BASED NAVIGATION
           ////////////////////////////////////////////////////////////
@@ -428,7 +428,7 @@ $("form").submit(function(evt){
               $("#active").parent(".movie-gallery").prev().find("img").trigger("click");
             }
           });
-          
+
           $("#btnNext").click(function(){
             if($(".movie-gallery:nth-child(8)").find("img").is("#active")) {
               $("#overlay").remove();
@@ -438,20 +438,20 @@ $("form").submit(function(evt){
               $("#active").parent(".movie-gallery").next().find("img").trigger("click");
             }
           });
-          
+
           $("#btnExit").click(function(){
             $("#overlay").remove();
             $("#active").removeAttr("id");
             $("body").removeClass("noscroll");
           });
-          
+
           $("#overlay").click(function(){
             $("#overlay").remove();
             $("#active").removeAttr("id");
             $("body").removeClass("noscroll");
           }); // END CLICK NAVIGATION
-          
-          
+
+
           ////////////////////////////////////////////////////////////
           //KEYBOARD BASED NAVIGATION
           ////////////////////////////////////////////////////////////
@@ -485,21 +485,21 @@ $("form").submit(function(evt){
                 break;
               }
             }; // END KEYBOARD NAVIGATION
-          
+
             ////////////////////////////////////////////////////////////
             // SWIPE BASED NAVIGATION
             ////////////////////////////////////////////////////////////
-            
+
             $("#overlay").on("swiperight", function(){
               $("#btnPrev").trigger("click");
             });
-            
+
             $("#overlay").on("swipeleft", function(){
               $("#btnNext").trigger("click");
             }); // END SWIPE NAVIGATION
         } //END lightboxContent
-  
-        
+
+
         ////////////////////////////////////////////////////////////
         //IF ITUNES ACTOR DOESN'T EXIST
         ////////////////////////////////////////////////////////////
@@ -518,13 +518,13 @@ $("form").submit(function(evt){
             insertMovie += '<img src="' + largeMoviePoster + '" alt="' + movie.trackName + '" />';
             insertMovie += '</a>';
           });
-          
+
           //insert gallery into Content div
           $("#content").html(insertMovie);
         }
-        
-        
-        
+
+
+
         // LIGHTBOX CLICK
         $(".movie-gallery > img").click(function() {
           //Remove active id from previous active item
@@ -534,9 +534,9 @@ $("form").submit(function(evt){
           var titleClicked = $(".movie-gallery > img").index(this);
           lightboxContent(titleClicked);
         }); //END LIGHTBOX CLICK
-        
-        
-        
+
+
+
         ////////////////////////////////////////////////////////////
         //SORT THE GALLERY by the ARRAY
         ////////////////////////////////////////////////////////////
@@ -553,7 +553,7 @@ $("form").submit(function(evt){
             lightboxContent(titleClicked);
           }); //END LIGHTBOX CLICK
         }); //End sort by date
-        
+
         $("#iTunesNameSort").click(function() {
           var movieSort = movieArray[0].results;
           movieSort.sort(SortByName);
@@ -566,12 +566,12 @@ $("form").submit(function(evt){
             var titleClicked = $(".movie-gallery > img").index(this);
             lightboxContent(titleClicked);
           }); //END LIGHTBOX CLICK
-          
+
         }); //End sort by name
-      
+
       } //END iTunesCallback
-      
-      
+
+
       //AJAX CALL
   //    $.getJSON(iTunesAPI, iTunesOptions, iTunesCallback);
       $.ajax({
@@ -581,8 +581,8 @@ $("form").submit(function(evt){
         type: "GET",
         success: iTunesCallback
         });
-      
+
     } //END MOVIE API
   } // END userSearch is filled out
-  
+
 }); //END FORM SUBMIT

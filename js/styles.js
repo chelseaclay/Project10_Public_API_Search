@@ -52,19 +52,19 @@ $("form").submit(function(evt){
       // IF ARTIST IS SELECTED
       if(apiSwitch() === "Artist") {
         albumArray = [];
-        var spotifySort = '<div id="sort"><h2>Sort by</h2><button id="spotifyDateSort">Date</button><button id="spotifyNameSort">Name</button><button id="spotifyPopSort">Popularity</button><hr /></div>';
-        $(spotifySort).insertAfter("form");
+        var artistSort = '<div id="sort"><h2>Sort by</h2><button id="artistDateSort">Date</button><button id="artistNameSort">Name</button><button id="artistPopSort">Popularity</button><hr /></div>';
+        $(artistSort).insertAfter("form");
 
     // the AJAX part
-    var spotifyArtistAPI = "https://api.spotify.com/v1/search";
-    var spotifyArtistSearch = userSearch.val();
-    var spotifyArtistOptions = {
-      q: spotifyArtistSearch,
-      type : 'album',
-      limit : 8
+    var artistAPI = "https://itunes.apple.com/search?";
+    var artistOptions = {
+      term: userSearch.val(),
+      limit : 8,
+      media: 'music',
+      entity: 'album'
     };
 
-    function spotifyArtistCallback(data) {
+    function artistCallback(data) {
       //Build gallery content
       var insertAlbum = '<div id="gallery">';
       //Create Overlay and buttons
@@ -94,42 +94,45 @@ $("form").submit(function(evt){
 
       function updateGallery() {
         var insertAlbumRebuild = '<div id="gallery">';
-        $.each(albumArray, function(i, album) {
+        $.each(albumArray[0].results, function(i, album) {
           //gallery content
           insertAlbumRebuild += '<a href="#lightboxAlbum" class="album-gallery">';
-          insertAlbumRebuild += '<img src="' + album.images[0].url + '" alt="' + album.name + '" spotify-id="' + album.id + '" />';
+          insertAlbumRebuild += '<img src="' + album.artworkUrl100 + '" alt="' + album.collectionName + '" artist-id="' + album.collectionId + '" />';
           insertAlbumRebuild += '</a>';
         });
-        insertAlbumRebuild += '<p>Visit <a href="' + data.albums.items[0].artists[0].external_urls.spotify + '" target="_blank">Spotify</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
+        insertAlbumRebuild += '<p>Visit <a href="' + albumArray[0].results[0].artistViewUrl + '" target="_blank">iTunes</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
         $('#content').html(insertAlbumRebuild);
       } //END GALLERY UPDATE
 
       function lightboxContent() {
-        var albumID = $("#active").attr("spotify-id");
+        var albumID = $("#active").attr("artist-id");
 
         //Prevent the Body from scrolling
         $('body').attr("class", "noscroll");
 
         // SECOND AJAX Call
-        var spotifyAlbumAPI = "https://api.spotify.com/v1/albums/" + albumID;
-        var spotifyAlbumOptions = {
-          type : 'album',
-          limit : 50
+        var artistAlbumAPI = "https://itunes.apple.com/lookup?";
+        var artistAlbumOptions = {
+          id : albumID,
+          limit : 50,
+          entity : 'song'
         };
 
-        function spotifyAlbumCallback(albumData) {
+        function artistAlbumCallback(albumData) {
           //Create lightbox album content
-          var albumRelease = albumData.release_date;
+          var albumRelease = albumData.results[0].releaseDate
           var lightboxAlbum = '<div class="btnWrapper"><button id="btnExit" type="button"> X </button></div><div class="album-info">';
-          lightboxAlbum += '<img class="album-art" src="' + albumData.images[0].url + '">';
-          lightboxAlbum += '<div><p class="album-artist">' + albumData.artists[0].name + '</p>';
-          lightboxAlbum += '<p class="album-title">' + albumData.name + '</p>';
+          lightboxAlbum += '<img class="album-art" src="' + albumData.results[0].artworkUrl100 + '">';
+          lightboxAlbum += '<div><p class="album-artist">' + albumData.results[0].artistName + '</p>';
+          lightboxAlbum += '<p class="album-title">' + albumData.results[0].collectionName + '</p>';
           lightboxAlbum += '<p class="album-year">' + albumRelease.substring(0, 4) + '</p>';
           lightboxAlbum += '</div></div>';
           lightboxAlbum += '<ol class="album-tracks">';
 
-          $.each(albumData.tracks.items, function(i, track) {
-            lightboxAlbum += '<li>' + track.name + '</li>';
+          $.each(albumData.results, function(i, track) {
+            if (i > 0) {
+              lightboxAlbum += '<li>' + track.trackName + '</li>';
+            }
           });
 
           lightboxAlbum += '</ol>';
@@ -214,52 +217,54 @@ $("form").submit(function(evt){
         $('#content').append(overlayLightbox);
 
         //SECOND AJAX call
-        $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
+        $.getJSON(artistAlbumAPI, artistAlbumOptions, artistAlbumCallback);
       } //END LIGHTBOX CONTENT CLICK
 
       //LOOP TO BUILD GALLERY AND ARRAY
-      $.each(data.albums.items, function(i, album) {
+      $.each(data.results, function(i, album) {
         //gallery content
         insertAlbum += '<a href="#lightboxAlbum" class="album-gallery">';
-        insertAlbum += '<img src="' + album.images[1].url + '" alt="' + album.name + '" spotify-id="' + album.id + '" />';
+        insertAlbum += '<img src="' + album.artworkUrl100 + '" alt="' + album.collectionName + '" artist-id="' + album.collectionId + '" />';
         insertAlbum += '</a>';
 
         ////////////////////////////////////////////////////////////
         //SECOND AJAX CALL FOR ARRAY
         ////////////////////////////////////////////////////////////
-        var spotifyAlbumAPI = "https://api.spotify.com/v1/albums/" + album.id;
-        var spotifyAlbumOptions = {
-          type : 'album',
-          limit : 50
+
+        var artistAlbumAPI = "https://itunes.apple.com/lookup?";
+        var artistAlbumOptions = {
+          id : album.collectionId,
+          limit : 50,
+          entity : 'song'
         };
 
-        function spotifyAlbumCallback(albumData) {
+        function artistAlbumCallback(albumData) {
           albumArray.push(albumData);
         } //END ARRAY CALLBACK
 
         //ARRAY AJAX call
-        $.getJSON(spotifyAlbumAPI, spotifyAlbumOptions, spotifyAlbumCallback);
+        $.getJSON(artistAlbumAPI, artistAlbumOptions, artistAlbumCallback);
       }); //END EACH LOOP TO BUILD GALLERY AND ARRAY
 
 
       ////////////////////////////////////////////////////////////
-      //IF SPOTIFY ARTIST DOESN'T EXIST
+      //IF ARTIST DOESN'T EXIST
       ////////////////////////////////////////////////////////////
-      if ( typeof data.albums.items[0] === "undefined" ) {
+      if ( typeof data.results[0] === "undefined" ) {
         enableSearch();
         var errorMessage = "<p class='error-message'>Sorry, <span>" + userSearch.val() + "</span> is not part of our library. Please make sure you have the correct spelling and try again.</p>";
         $("#sort").remove();
         $('#content').html(errorMessage);
       } else {
         $('#sort').show();
-        //Link back to Spotify under gallery
-        insertAlbum += '<p>Visit <a href="' + data.albums.items[0].artists[0].external_urls.spotify + '" target="_blank">Spotify</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
+        //Link back to iTunes under gallery
+        insertAlbum += '<p>Visit <a href="' + data.results[0].artistViewUrl + '" target="_blank">iTunes</a> for the latest news on <span>' + userSearch.val() + '</span>.</p>';
         insertAlbum += '</div>';
         //Put content on page
         $('#content').html(insertAlbum);
         //put back search bar
         enableSearch();
-      } // END SPOTIFY ARTIST DOESN'T EXIST
+      } // END ARTIST DOESN'T EXIST
 
       ////////////////////////////////////////////////////////////
       //DISPLAY LIGHTBOX ON CLICK
@@ -275,7 +280,7 @@ $("form").submit(function(evt){
       ////////////////////////////////////////////////////////////
       //SORT THE GALLERY by the ARRAY
       ////////////////////////////////////////////////////////////
-      $("#spotifyDateSort").click(function() {
+      $("#artistDateSort").click(function() {
         albumArray.sort(SortByDate);
         updateGallery();
         $(".album-gallery > img").click(function() {
@@ -287,7 +292,7 @@ $("form").submit(function(evt){
         }); //END LIGHTBOX CLICK
       }); //End sort by date
 
-      $("#spotifyNameSort").click(function() {
+      $("#artistNameSort").click(function() {
         albumArray.sort(SortByName);
         updateGallery();
         $(".album-gallery > img").click(function() {
@@ -299,7 +304,7 @@ $("form").submit(function(evt){
         }); //END LIGHTBOX CLICK
       }); //End sort by name
 
-      $("#spotifyPopSort").click(function() {
+      $("#artistPopSort").click(function() {
         albumArray.sort(SortByPopularity);
         updateGallery();
         $(".album-gallery > img").click(function() {
@@ -314,7 +319,7 @@ $("form").submit(function(evt){
     } //END ORIGINAL CALLBACK
 
     //ORIGINAL AJAX CALL
-    $.getJSON(spotifyArtistAPI, spotifyArtistOptions, spotifyArtistCallback);
+    $.getJSON(artistAPI, artistOptions, artistCallback);
 
 
 
